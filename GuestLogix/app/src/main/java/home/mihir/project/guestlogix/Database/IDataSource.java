@@ -5,6 +5,9 @@ import home.mihir.project.guestlogix.Model.Airlines;
 import home.mihir.project.guestlogix.Model.Airports;
 import home.mihir.project.guestlogix.Model.Routes;
 
+
+//interface for implementation of sql methods.
+
 public interface IDataSource {
 
     List<Airports> getAirports();

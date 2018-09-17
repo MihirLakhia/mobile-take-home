@@ -13,6 +13,10 @@ import home.mihir.project.guestlogix.Model.Airlines;
 import home.mihir.project.guestlogix.Model.Airports;
 import home.mihir.project.guestlogix.Model.Routes;
 
+
+/*
+* CSV file reader utilies
+* */
 public class CSVFile {
     InputStream inputStream;
 
@@ -24,6 +28,9 @@ public class CSVFile {
         this.inputStream = inputStream;
     }
 
+    /*
+     * CSV file reader @TableType is for table name
+     * */
     public List read(int TableType){
 
         List resultList = new ArrayList<>();

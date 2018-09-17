@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -39,6 +42,11 @@ import home.mihir.project.guestlogix.Service.DatabaseCreator;
 import static home.mihir.project.guestlogix.R.id;
 import static home.mihir.project.guestlogix.R.layout;
 
+/*
+* Main Activity
+* start with view Binding views and map
+*
+* */
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getName().toString();
@@ -72,25 +80,8 @@ public class MainActivity extends AppCompatActivity {
                 map = googleMap;
             }
         });
-
-
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                        sleep(1000);
-                        checkdata();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-//        thread.start();
-        txt_origin.addTextChangedListener(tc1);
+        txt_origin.addTextChangedListener(tc1);// tc1 and tc are to check text changed methods on particular Editview
         txt_destination.addTextChangedListener(tc);
-
-
     }
     TextWatcher tc = new TextWatcher() {
         @Override
@@ -125,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+//find entered airport data on textChanged event and set global parameters @origin and @destination
     public class AutoFill extends AsyncTask<String,String,List<Airports>> {
         String query;
         int error;
@@ -165,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 txt_destination.setError("Destination is invalid");
                 Toast.makeText(getApplicationContext(), "Data is invalid!", Toast.LENGTH_LONG).show();
             }
-            else{
+            else{//both airports are valid and setup a Marker on MAP
                 for(Airports data : airportsdata){
                     Log.d("Airport Data--------", data.getName());
                     MarkerOptions markerOptions = new MarkerOptions();
@@ -182,13 +173,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    //async task for Finding Routes
     public class FindRoutes extends AsyncTask<String,String,List<Routes>> {
         String origin;
         String destination;
         List<Routes> data;
         ProgressDialog dialogue;
-        ArrayList<LatLng> points;
-        List<Airports> midPoint;
+        ArrayList<LatLng> points; //warpaint if no connection found between two airports
+        List<Airports> midPoint;// ALL WAYPOINT airport
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -207,12 +199,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected List<Routes> doInBackground(String... strings) {
 
-            data = db.databaseDAO().findRouts(origin,destination);
+            data = db.databaseDAO().findRouts(origin,destination);// search regular route
             if(data.isEmpty()) {
-                data = db.databaseDAO().findViaRouts(origin, destination);
+                data = db.databaseDAO().findViaRouts(origin, destination); // search waypoint routes
                 if(!data.isEmpty()) {
-                    midPoint = db.databaseDAO().getIata(data.get(0).getDestination().toString());
-
+                    midPoint = db.databaseDAO().getIata(data.get(0).getDestination().toString()); // if any found: search airport data of middle point
                 }
             }return data;
         }
@@ -236,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!midPoint.isEmpty()) {
                     points.add(new LatLng(Double.valueOf(midPoint.get(0).getLatitude()), Double.valueOf(midPoint.get(0).getLongitude())));
 
-                    if (checkDistance(points)) {
+                    if (checkDistance(points)) {//physical distance check with waypoints distance  if it is true then set location pin on the map
                         MarkerOptions markerOptions = new MarkerOptions();
                         LatLng l = new LatLng(Double.valueOf(midPoint.get(0).getLatitude()), Double.valueOf(midPoint.get(0).getLongitude()));
                         // Setting the position for the marker
@@ -274,6 +265,8 @@ public class MainActivity extends AppCompatActivity {
             new FindRoutes(origin, destination).execute();
         }
     }
+
+//    get distance from waypoints if it is more then physical distance then it will return false
     public boolean checkDistance(List<LatLng> points) {
 
         Location origin = new Location("");
@@ -292,6 +285,8 @@ public class MainActivity extends AppCompatActivity {
         else
         return false;
     }
+
+    //check database filled or not
     public void checkdata(){
 
 
@@ -308,5 +303,25 @@ public class MainActivity extends AppCompatActivity {
 //           Log.d("Routes Data", data.getAirline_id());
 //        }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == id.clear)
+        {
+            map.clear();
+            txt_origin.setText("");
+            txt_destination.setText("");
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

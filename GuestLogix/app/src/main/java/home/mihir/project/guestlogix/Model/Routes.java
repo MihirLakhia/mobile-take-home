@@ -1,10 +1,12 @@
 package home.mihir.project.guestlogix.Model;
 
-import android.app.ActionBar;
+
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
+
+//database table ROUTES
 
 @Entity(tableName = "routes")
 public class Routes {

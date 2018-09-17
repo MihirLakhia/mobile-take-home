@@ -18,6 +18,10 @@ import home.mihir.project.guestlogix.Model.Routes;
 import home.mihir.project.guestlogix.R;
 import home.mihir.project.guestlogix.utils.CSVFile;
 
+/*Services for datbase creation
+*   reading data from csv file and insert into table
+*   CSV file reader class object helps to read data
+*/
 public class DatabaseCreator extends IntentService{
 
     public static final int AIRPORTS = 1;
@@ -44,7 +48,7 @@ public class DatabaseCreator extends IntentService{
     }
 
 
-
+//Asynck task for readdata from csv file and fill all data in database
     public class ReadData extends AsyncTask<String,Void, String>{
 
             @Override
@@ -56,6 +60,8 @@ public class DatabaseCreator extends IntentService{
             }
         }
 
+        /*fill table @Airports
+        * */
         public void fill_Airports(){
             InputStream inputStream = getResources().openRawResource(R.raw.airports);
             CSVFile csvFile = new CSVFile(inputStream);
@@ -68,6 +74,8 @@ public class DatabaseCreator extends IntentService{
             }
 
         }
+    /*fill table @Airlines
+     * */
         public void fill_Airlines(){
             InputStream inputStream = getResources().openRawResource(R.raw.airlines);
             CSVFile csvFile = new CSVFile(inputStream);
@@ -79,6 +87,8 @@ public class DatabaseCreator extends IntentService{
                 Log.d("Airlines Data", airlines.getName());
             }
         }
+    /*fill table @routes
+     * */
         public void fill_Routes(){
             InputStream inputStream = getResources().openRawResource(R.raw.routes);
             CSVFile csvFile = new CSVFile(inputStream);

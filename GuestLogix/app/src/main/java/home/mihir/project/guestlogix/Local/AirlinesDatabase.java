@@ -21,6 +21,7 @@ public abstract class AirlinesDatabase extends RoomDatabase {
 
     private static AirlinesDatabase mInstance;
 
+        // database creation
     public static AirlinesDatabase getmInstance(Context context) {
         if (mInstance == null) {
             mInstance =

@@ -6,18 +6,23 @@ import android.arch.persistence.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
 
+//database table AIRLINES
+
+
 @Entity(tableName = "airlines")
 public class Airlines {
 
     @ColumnInfo(name = "name")
     private String name;
+
     @NotNull
     @PrimaryKey
     @ColumnInfo(name = "digit_code2")
-
     private String digit_code2;
+
     @ColumnInfo(name = "digit_code3")
     private String digit_code3;
+
     @ColumnInfo(name = "country")
     private String country;
 
