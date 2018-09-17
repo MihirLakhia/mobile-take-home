@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".MainActivity">
+
+
+        <EditText
+            android:id="@+id/txt_origin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/texthint"
+            android:hint="@string/origin"
+            android:singleLine="true"
+            android:tag="1"
+            android:inputType="textCapCharacters"
+            android:maxLength="3"/>
+
+        <EditText
+            android:id="@+id/txt_destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/texthint"
+            android:hint="@string/destination"
+            android:singleLine="true"
+            android:tag="2"
+            android:inputType="textCapCharacters"
+            android:maxLength="3" />
+        <Button
+            android:text="@string/find_routes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:layout_marginBottom="10dp"
+            android:onClick="findRoutes"/>
+
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment" />
+
+</LinearLayout>

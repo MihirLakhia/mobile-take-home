@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">GuestLogix</string>
+    <string name="Destination">Destination</string>
+    <string name="origin">Origin</string>
+    <string name="destination">Destination</string>
+    <string name="find_routes">Find Routes</string>
+    <string name="todo">TODO</string>
+</resources>
